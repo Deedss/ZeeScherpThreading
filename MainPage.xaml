@@ -6,9 +6,73 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="AliceBlue">
+    
+    <!-- DEFINE BACKGROUND GRID -->
+    <Grid x:Name="Grid_Background" Background="AliceBlue">
 
-    <Grid>
+        <!-- DEFINE VISUAL STATES FOR MENU -->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="NavigationPane.DisplayMode"
+                                Value="CompactOverlay" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="NavigationPane.DisplayMode"
+                                Value="Overlay" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
 
+        <!-- DEFINE NUMBER OF ROWS OF BACKGROUND -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- GRID FOR TOPBAR -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="48"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <ToggleButton x:Name="ToggleButton" 
+                          Background="Crimson"
+                          Width="48"
+                          Height="48"
+                          TabIndex="1"
+                          IsChecked="{Binding IsPaneOpen, ElementName=NavigationPane, Mode=TwoWay}"
+                          AutomationProperties.Name="Menu"/>
+
+
+            <Grid Grid.Column="1"
+                  Background="#F2F2F2">
+                <TextBlock FontSize="22"
+                           Margin="10,0,0,0"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Text="{Binding SelectedMenuItem.Title}" />
+            </Grid>
+            
+        </Grid>
+
+        <SplitView x:Name="NavigationPane"
+                   Grid.Row="1"
+                   Background="AliceBlue"
+                   OpenPaneLength="240" 
+                   CompactPaneLength="48">
+        </SplitView>
     </Grid>
 </Page>
