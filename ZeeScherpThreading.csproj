@@ -119,6 +119,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FractalEditor.cs" />
+    <Compile Include="FractalGenerator.cs" />
+    <Compile Include="FractalPart.cs" />
+    <Compile Include="FractalTemplate\FractalTemplate.cs" />
+    <Compile Include="FractalTemplate\KochCurve.cs" />
+    <Compile Include="FractalTemplate\KockSnowflake.cs" />
+    <Compile Include="FractalTemplate\MandelBrot.cs" />
+    <Compile Include="FractalTemplate\SierPinski.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
