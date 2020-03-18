@@ -8,7 +8,7 @@ namespace ZeeScherpThreading.FractalTemplate
 {
     class SierPinski : FractalTemplate
     {
-        public override int[,] calculate()
+        public override int[,] calculate(FractalPart f)
         {
             return null;
         }

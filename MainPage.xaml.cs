@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -22,9 +24,17 @@ namespace ZeeScherpThreading
     /// </summary>
     public sealed partial class MainPage : Page
     {
+      
         public MainPage()
         {
             this.InitializeComponent();
+            FractalGenerator fg = new FractalGenerator(aids);
+            FractalTemplate.MandelBrot fractal = new FractalTemplate.MandelBrot();
+            fractal.setWidth(1920);
+            fractal.setHeight(1080);
+            fg.generate(fractal, 1);
+
+
         }
     }
 }

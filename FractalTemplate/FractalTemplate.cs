@@ -9,13 +9,8 @@ namespace ZeeScherpThreading.FractalTemplate
 {
     abstract class FractalTemplate
     {
-        private int width, height, iterations;
-        private Complex a, b;
-
-        public FractalTemplate(Complex a, Complex b)
-        {
-
-        }
+        private int width, height, iterations = 1;
+        public double x1, x2, y1, y2;
 
         public FractalTemplate()
         {
@@ -52,6 +47,6 @@ namespace ZeeScherpThreading.FractalTemplate
             this.iterations = i;
         }
 
-        public abstract int[,] calculate();
+        public abstract int[,] calculate(FractalPart fa);
     }
 }
