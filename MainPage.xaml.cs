@@ -25,6 +25,7 @@ namespace ZeeScherpThreading
         public MainPage()
         {
             this.InitializeComponent();
+
         }
     }
 }
