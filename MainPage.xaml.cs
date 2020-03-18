@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -32,7 +33,8 @@ namespace ZeeScherpThreading
             FractalTemplate.MandelBrot fractal = new FractalTemplate.MandelBrot();
             fractal.setWidth(1920);
             fractal.setHeight(1080);
-            fg.generate(fractal, 1);
+
+            fg.generate(fractal, 50);
 
 
         }

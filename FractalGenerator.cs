@@ -18,7 +18,6 @@ namespace ZeeScherpThreading
     class FractalGenerator
     {
         private List<FractalPart> fractalParts = new List<FractalPart>();
-        private List<WriteableBitmap> fractalImages = new List<WriteableBitmap>();
         private int nrOfThreads;
 
         private StackPanel sp;
@@ -51,11 +50,10 @@ namespace ZeeScherpThreading
             }
 
             //Calculate every fractalpart on a new thread.
-            fractalImages = new List<WriteableBitmap>();
             foreach (FractalPart part in this.fractalParts)
             {
                 //Add placeholder part to show loading
-                fractalImages.Add(new WriteableBitmap(part.getWidth(), part.getHeight()));
+                this.sp.Children.Add(new Windows.UI.Xaml.Controls.Image());
                 Thread thr = new Thread(() => generateFractalPart(part,fractal));
                 thr.Start();
             }
@@ -64,20 +62,17 @@ namespace ZeeScherpThreading
         //Callback from thread when generating of fractal is done
         private void addFractalPartToUI(FractalPart part)
         {
-            sp.Children.Clear();
             WriteableBitmap fractalBitmap = new WriteableBitmap(part.getWidth(), part.getHeight());
             using (Stream stream = fractalBitmap.PixelBuffer.AsStream()) { stream.Write(part.imageArray, 0, part.imageArray.Length); }
-            fractalImages[part.pos] = fractalBitmap;
             //When generate of part is done re-draw ALL parts on canvas again
-            foreach (WriteableBitmap w in this.fractalImages)
-            {
-                Windows.UI.Xaml.Controls.Image img = new Windows.UI.Xaml.Controls.Image();
-                img.Source = w;
-                //img.Stretch = Windows.UI.Xaml.Media.Stretch.None;
-                //img.Margin = new Thickness(0, 1, 0, 0);
-                sp.Children.Add(img);
+             Windows.UI.Xaml.Controls.Image img = new Windows.UI.Xaml.Controls.Image();
+             img.Source = fractalBitmap;
+            //img.Stretch = Windows.UI.Xaml.Media.Stretch.None;
+            //img.Margin = new Thickness(0, 1, 0, 0);
+            sp.Children.RemoveAt(part.pos);
+            sp.Children.Insert(part.pos, img);
             }
-        }
+        
         private async void generateFractalPart(FractalPart part, FractalTemplate.FractalTemplate fractal)
         {
             part.imageArray = new byte[part.getWidth() * part.getHeight() * 4];
