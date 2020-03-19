@@ -38,8 +38,8 @@ namespace ZeeScherpThreading
         private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>{
             ("Page1", typeof(Views.Page1)),
             ("Page2", typeof(Views.Page2)),
-            //("Page3", typeof(Views.Page3)),
-            //("Page4", typeof(Views.Page4)),
+            ("Page3", typeof(Views.Page3)),
+            ("Page4", typeof(Views.Page4)),
             ("Page5", typeof(Views.Page5)),
             ("Page6", typeof(Views.Page6)),
         };

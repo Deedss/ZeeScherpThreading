@@ -10,17 +10,22 @@
 
     <Grid>
         <NavigationView PaneTitle="De fraktaal samensteller" x:Name="NavView" Loaded="NavView_Loaded" ItemInvoked="NavView_ItemInvoked" IsBackButtonVisible="Collapsed" IsBackEnabled="False">
-
             <NavigationView.MenuItems>
                 
                 <NavigationViewItemHeader x:Name="Frjactal_shizzle" Content="Fractal options"/>
-                
-                <NavigationViewItem Tag="Page1" Content="Draw fractal">
+
+                <NavigationViewItem Tag="Page6" Content="Add fractal">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE710;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Tag="Page3" Content="Edit fractal">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE70F;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                
+
                 <NavigationViewItem Tag="Page2" Content="Select fractal">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF16C;"/>
@@ -30,6 +35,12 @@
                 <NavigationViewItemSeparator/>
 
                 <NavigationViewItemHeader x:Name="draw_shizzle" Content="Draw options"/>
+
+                <NavigationViewItem Tag="Page1" Content="Draw fractal">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEC87;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
 
                 <NavigationViewItem Tag="" Content="Clear drawing" SelectsOnInvoked="False">
                     <NavigationViewItem.Icon>
@@ -53,18 +64,26 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
-                <NavigationViewItem Tag="Page6" Content="Add fractal">
+                <NavigationViewItem Tag="" Content="Load or save fractal" SelectsOnInvoked="False">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE710;"/>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74E;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                
+
             </NavigationView.MenuItems>
 
             <ScrollViewer>
                 <Frame x:Name="ContentFrame" Padding="12,0,12,24" IsTabStop="True"
                    NavigationFailed="ContentFrame_NavigationFailed"/>
             </ScrollViewer>
+
+
+            <NavigationView.PaneFooter>
+                <StackPanel x:Name="FooterStackPanel" Orientation="Vertical" Visibility="Visible">
+                    <NavigationViewItem Icon="ContactInfo" AutomationProperties.Name="About" />
+                </StackPanel>
+            </NavigationView.PaneFooter>
+
         </NavigationView>
 
         <VisualStateManager.VisualStateGroups>

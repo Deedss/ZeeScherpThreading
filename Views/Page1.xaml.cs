@@ -27,10 +27,10 @@ namespace ZeeScherpThreading.Views
 			this.InitializeComponent();
 			FractalGenerator fg = new FractalGenerator(aids);
 			FractalTemplate.MandelBrot fractal = new FractalTemplate.MandelBrot();
-			fractal.setWidth(1920);
-			fractal.setHeight(1080);
+			fractal.setWidth(3840);
+			fractal.setHeight(2160);
 
-			fg.generate(fractal, 50);
+			fg.generate(fractal, 2);
 		}
 	}
 }
