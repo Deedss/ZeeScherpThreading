@@ -9,7 +9,12 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-		<DatePicker HorizontalAlignment="Center"/>
-
-	</Grid>
+        <!-- SelectionChanged="ColorComboBox_SelectionChanged" -->
+        <ComboBox Header="Select fractal" PlaceholderText="-" Width="200" Margin="0,281,921,0" HorizontalAlignment="Right">
+            <x:String>Fractal 1</x:String>
+            <x:String>Fractal 2</x:String>
+            <x:String>Fractal 3</x:String>
+            <x:String>Fractal 4</x:String>
+        </ComboBox>
+    </Grid>
 </Page>
