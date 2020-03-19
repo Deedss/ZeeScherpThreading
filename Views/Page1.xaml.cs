@@ -32,10 +32,11 @@ namespace ZeeScherpThreading.Views
 			this.InitializeComponent();
 			fg = new FractalGenerator(aids);
 			fractal = new FractalTemplate.MandelBrot();
-			fractal.setWidth(500);
+			fractal.setWidth(100);
 			fractal.setHeight(100);
 
-			fg.generate(fractal, 5);
+			fg.generate(fractal, 4);
+			
 		}
 
 	
@@ -62,7 +63,7 @@ namespace ZeeScherpThreading.Views
 				fractal.y1 -= step;
 				fractal.y2 += step;
 
-				fg.generate(fractal, 5);
+				fg.generate(fractal, 4);
 			}
 		}
 	}

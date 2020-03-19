@@ -64,10 +64,14 @@ namespace ZeeScherpThreading
             }
 
             //Calculate every fractalpart on a new thread.
+            this.sp.Children.Clear();
             foreach (FractalPart part in this.fractalParts)
             {
                 //Add placeholder part to show loading
-                this.sp.Children.Add(new Windows.UI.Xaml.Controls.Image());
+                Windows.UI.Xaml.Controls.Image img = new Windows.UI.Xaml.Controls.Image();
+                //img.Stretch = Windows.UI.Xaml.Media.Stretch.Uniform;
+                img.Margin = new Thickness(0, -1, 0, 0);
+                this.sp.Children.Add(img);
                 Thread thr = new Thread(() => generateFractalPart(part,fractal));
                 
                 thr.Start();
@@ -80,12 +84,10 @@ namespace ZeeScherpThreading
             WriteableBitmap fractalBitmap = new WriteableBitmap(part.getWidth(), part.getHeight());
             using (Stream stream = fractalBitmap.PixelBuffer.AsStream()) { stream.Write(part.imageArray, 0, part.imageArray.Length); }
             //When generate of part is done re-draw ALL parts on canvas again
-             Windows.UI.Xaml.Controls.Image img = new Windows.UI.Xaml.Controls.Image();
-             img.Source = fractalBitmap;
+
             //img.Stretch = Windows.UI.Xaml.Media.Stretch.None;
-            //img.Margin = new Thickness(0, 1, 0, 0);
-            sp.Children.RemoveAt(part.pos);
-            sp.Children.Insert(part.pos, img);
+            Windows.UI.Xaml.Controls.Image img = sp.Children[part.pos] as Windows.UI.Xaml.Controls.Image;
+            img.Source = fractalBitmap;
             }
         
         private async void generateFractalPart(FractalPart part, FractalTemplate.FractalTemplate fractal)

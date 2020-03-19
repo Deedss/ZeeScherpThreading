@@ -8,6 +8,8 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-	<StackPanel Name="aids" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Vertical" PointerMoved="aids_PointerMoved" PointerWheelChanged="aids_PointerWheelChanged"/>
+    <StackPanel Name="aids" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Vertical" PointerMoved="aids_PointerMoved" PointerWheelChanged="aids_PointerWheelChanged">
+       
+    </StackPanel>
 
 </Page>
