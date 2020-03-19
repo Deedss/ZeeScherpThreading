@@ -32,10 +32,10 @@ namespace ZeeScherpThreading.Views
 			this.InitializeComponent();
 			fg = new FractalGenerator(aids);
 			fractal = new FractalTemplate.MandelBrot();
-			fractal.setWidth(100);
-			fractal.setHeight(100);
+			fractal.setWidth(1000);
+			fractal.setHeight(1000);
 
-			fg.generate(fractal, 4);
+			fg.generate(fractal, 23);
 			
 		}
 

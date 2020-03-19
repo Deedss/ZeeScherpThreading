@@ -39,6 +39,7 @@ namespace ZeeScherpThreading
             }
             return false;
         }
+      
 
         public void generate(FractalTemplate.FractalTemplate fractal, int nrOfThreads)
         {
@@ -51,43 +52,46 @@ namespace ZeeScherpThreading
             double y2 = (y1 - step);
 
             int partNum = 0;
+            this.sp.Children.Clear();
             while (partNum != this.nrOfThreads)
             {
-                this.fractalParts.Add(new FractalPart(fractal.x1,
-                    fractal.x2,y1,y2,
-                    fractal.getWidth(), fractal.getHeight() / this.nrOfThreads, partNum));
+                FractalPart part = new FractalPart(fractal.x1,
+                    fractal.x2, y1, y2,
+                    fractal.getWidth(), fractal.getHeight() / this.nrOfThreads, partNum);
+                this.fractalParts.Add(part);
                 partNum++;
 
                 y1 -= step;
                 y2 = (y1 - step);
-
-            }
-
-            //Calculate every fractalpart on a new thread.
-            this.sp.Children.Clear();
-            foreach (FractalPart part in this.fractalParts)
-            {
                 //Add placeholder part to show loading
                 Windows.UI.Xaml.Controls.Image img = new Windows.UI.Xaml.Controls.Image();
                 //img.Stretch = Windows.UI.Xaml.Media.Stretch.Uniform;
-                img.Margin = new Thickness(0, -1, 0, 0);
+                //img.Margin = new Thickness(0, -1, 0, 0);
+               
                 this.sp.Children.Add(img);
-                Thread thr = new Thread(() => generateFractalPart(part,fractal));
-                
+
+                //Calculate every fractalpart on a new thread.
+                Thread thr = new Thread(() => generateFractalPart(part, fractal));
+
                 thr.Start();
+
             }
+            return true;
+          
         }
 
         //Callback from thread when generating of fractal is done
-        private void addFractalPartToUI(FractalPart part)
+        private async Task addFractalPartToUIAsync(FractalPart part)
         {
-            WriteableBitmap fractalBitmap = new WriteableBitmap(part.getWidth(), part.getHeight());
-            using (Stream stream = fractalBitmap.PixelBuffer.AsStream()) { stream.Write(part.imageArray, 0, part.imageArray.Length); }
-            //When generate of part is done re-draw ALL parts on canvas again
-
+           /* WriteableBitmap fractalBitmap = new WriteableBitmap(part.getWidth(), part.getHeight());
+            using (Stream stream = fractalBitmap.PixelBuffer.AsStream()) { stream.Write(part.imageArray, 0, part.imageArray.Length); }*/
             //img.Stretch = Windows.UI.Xaml.Media.Stretch.None;
             Windows.UI.Xaml.Controls.Image img = sp.Children[part.pos] as Windows.UI.Xaml.Controls.Image;
-            img.Source = fractalBitmap;
+
+            WriteableBitmap w = new WriteableBitmap(part.getWidth(), part.getHeight());
+            img.Source = w;
+            using (Stream stream = w.PixelBuffer.AsStream()) { await stream.WriteAsync(part.imageArray, 0, part.imageArray.Length); }
+          
             }
         
         private async void generateFractalPart(FractalPart part, FractalTemplate.FractalTemplate fractal)
@@ -118,13 +122,14 @@ namespace ZeeScherpThreading
                     x = 0;
                 }
             }
-
+           
+         
             //System.Threading.Thread.Sleep(new Random().Next(3,10) * 1000);
 
             //Callback to UI thread when generating is done, add to list and refresh current fractal parts on screen
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             { 
-                this.addFractalPartToUI(part);
+                await this.addFractalPartToUIAsync(part);
             });
 
         }
