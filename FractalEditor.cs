@@ -13,7 +13,9 @@ using Newtonsoft.Json.Linq;
 namespace ZeeScherpThreading
 {
     /// <summary>
-    /// 
+    /// Creates new fractal templates.
+    /// Saves fractal templates to a list.
+    /// Saves and loads template lists to and from Json files.
     /// </summary>
     class FractalEditor
     {
@@ -23,6 +25,7 @@ namespace ZeeScherpThreading
         {
 
         }
+
         /// <summary>
         /// Create a new fractal template based on an existing template and add this new template to the list of existing templates
         /// </summary>
@@ -34,6 +37,7 @@ namespace ZeeScherpThreading
             // TODO Fix the fractal
             fractal newFractalTemplate = new fractal(a, b);
             fractals.Add(newFractalTemplate);
+
         }
 
         /// <summary>
@@ -51,7 +55,8 @@ namespace ZeeScherpThreading
         /// <param name="filename"> The name of the Json file </param>
         public void saveFractals(String filename) // voorbeeld hoe je Json file saved 
         {
-            //TODO Use serialize stuff for JSON 
+            //TODO Serialize the list to Json
+            
             JObject fractalJson = new JObject(new JProperty("Fractal Templates", getFractals()));
 
             File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"SavedFarctals\" + filename + ".json", fractalJson.ToString());
@@ -71,7 +76,7 @@ namespace ZeeScherpThreading
         /// <param name="filename"> The name of the Json file to retrieve fractal templates from </param>
         public void loadFractals(String filename)
         {
-            //TODO JSON
+            //TODO JSON with deserialization
 
             // Gets a string of the contents of the Json file
             string filePath = AppDomain.CurrentDomain.BaseDirectory + @"SavedFarctals\" + filename + ".json";
@@ -88,17 +93,24 @@ namespace ZeeScherpThreading
             }
         }
 
-        //todo
+        /// <summary>
+        /// Serializes the the fractal templates to insert into a Json file
+        /// </summary>
         public async Task serializeJsonAsync() 
         {
+            // TODO Finish serialization
             using (FileStream fs = File.Create(fileName))
             {
                 await JsonSerializer.SerializeAsync(fs, weatherForecast);
             }
         }
-        //todo
+
+        /// <summary>
+        /// Deserialize the information from a Json file
+        /// </summary>
         public void deserializeJson()  
         {
+            // TODO Finish deserialization
             var text = File.ReadAllText(myFileName);
             mydictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(text);
 
