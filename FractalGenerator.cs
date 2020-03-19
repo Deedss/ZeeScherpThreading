@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,9 +28,22 @@ namespace ZeeScherpThreading
             this.sp = sp;
         }
 
+        public Boolean isGenerating()
+        {
+            foreach (FractalPart part in this.fractalParts)
+            {
+                if (part.imageArray == null)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public void generate(FractalTemplate.FractalTemplate fractal, int nrOfThreads)
         {
             this.nrOfThreads = nrOfThreads;
+            this.fractalParts = new List<FractalPart>();
 
             //For amount of threads split the fractal up into FractalParts
             double step = Convert.ToDouble((Math.Abs(fractal.y1) + Math.Abs(fractal.y2))) / Convert.ToDouble(this.nrOfThreads);
@@ -55,6 +69,7 @@ namespace ZeeScherpThreading
                 //Add placeholder part to show loading
                 this.sp.Children.Add(new Windows.UI.Xaml.Controls.Image());
                 Thread thr = new Thread(() => generateFractalPart(part,fractal));
+                
                 thr.Start();
             }
         }
