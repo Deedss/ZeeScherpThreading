@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Numerics;
 using System.IO;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Runtime.Serialization;
 
 namespace ZeeScherpThreading
 {
@@ -25,26 +19,23 @@ namespace ZeeScherpThreading
         {
 
         }
-
         /// <summary>
-        /// Create a new fractal template based on an existing template and add this new template to the list of existing templates
+        /// 
         /// </summary>
-        /// <param name="fractal"> The fractal template where the new template will be based on </param>
-        /// <param name="a"> First complex parameter of the fractal </param>
-        /// <param name="b"> Second complex parameter of the fractal </param>
-        public void create(FractalTemplate.FractalTemplate fractal, Complex a, Complex b)
+        /// <param name="filename"></param>
+        public void Edit(string filename)
         {
-            // TODO Fix the fractal
-            fractal newFractalTemplate = new fractal(a, b);
-            fractals.Add(newFractalTemplate);
-
+            // Gets the string from a specific Json file
+            string fileName = filename + ".json";
+            string filePath = AppDomain.CurrentDomain.BaseDirectory + @"SavedFarctals\" + fileName;
+            string json = File.ReadAllText(filePath);
         }
 
         /// <summary>
         /// Gets abstract list of all the fractal templates
         /// </summary>
         /// <returns> A list of the existing fractal templates </returns>
-        public List<FractalTemplate.FractalTemplate> getFractals()
+        public List<FractalTemplate.FractalTemplate> GetFractals()
         {
             return this.fractals;
         }
@@ -53,67 +44,103 @@ namespace ZeeScherpThreading
         /// Put the fractal template list in a Json file
         /// </summary>
         /// <param name="filename"> The name of the Json file </param>
-        public void saveFractals(String filename) // voorbeeld hoe je Json file saved 
+        public void SaveFractals(string filename) // voorbeeld hoe je Json file saved 
         {
             //TODO Serialize the list to Json
-            
-            JObject fractalJson = new JObject(new JProperty("Fractal Templates", getFractals()));
+            string json = SerializeJson();            // The string to put in the json file
 
-            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"SavedFarctals\" + filename + ".json", fractalJson.ToString());
-
-            // write JSON directly to a file
-            using (StreamWriter file = File.CreateText(AppDomain.CurrentDomain.BaseDirectory + @"SavedFarctals\" + filename + ".json"))
-            using (JsonTextWriter writer = new JsonTextWriter(file))
-            {
-                fractalJson.WriteTo(writer);
-            }
-            
+            string fileName = filename + ".json";
+            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"SavedFarctals\" + fileName, json);
         }
 
         /// <summary>
         /// Get a fractal template list from a Json file and add it to the template list
         /// </summary>
         /// <param name="filename"> The name of the Json file to retrieve fractal templates from </param>
-        public void loadFractals(String filename)
+        public void LoadFractals(string filename)
         {
-            //TODO JSON with deserialization
-
             // Gets a string of the contents of the Json file
-            string filePath = AppDomain.CurrentDomain.BaseDirectory + @"SavedFarctals\" + filename + ".json";
-            string text = File.ReadAllText(filePath);
+            string fileName = filename + ".json";
+            string filePath = AppDomain.CurrentDomain.BaseDirectory + @"SavedFarctals\" + fileName;
+            string json = File.ReadAllText(filePath);
 
-
-            // old
-            OpenFileDialog openDialog = new OpenFileDialog();
-            openDialog.Title = "Select A File";
-            openDialog.Filter = "Json Files (*.Json)|*.Json" + "All Files (*.*)|*.*"; 
-            if (openDialog.ShowDialog() == DialogResult.OK)
-            {
-                string file = openDialog.FileName;
-            }
+            // Deserialize the string
+            DeserializeJson(json);
         }
 
         /// <summary>
         /// Serializes the the fractal templates to insert into a Json file
         /// </summary>
-        public async Task serializeJsonAsync() 
+        /// <returns> The serialized string </returns>
+        public string SerializeJson()
         {
-            // TODO Finish serialization
-            using (FileStream fs = File.Create(fileName))
-            {
-                await JsonSerializer.SerializeAsync(fs, weatherForecast);
-            }
+            // Create a new class to serialize
+            var toserialize = new ClassToSerializeViaJson();
+            var binder = new TypeNameSerializationBinder("ConsoleApplication.{0}, ConsoleApplication");
+
+            toserialize.CollectionToSerialize = fractals;
+
+            string json = JsonConvert.SerializeObject(toserialize, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Auto,
+                    Binder = binder
+                });
+
+            return json;
         }
 
         /// <summary>
-        /// Deserialize the information from a Json file
+        /// Deserialize the information from the string of a Json file
         /// </summary>
-        public void deserializeJson()  
+        /// <param name="json"> The Json string to deserialize </param>
+        public void DeserializeJson(string json)
         {
-            // TODO Finish deserialization
-            var text = File.ReadAllText(myFileName);
-            mydictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(text);
+            var binder = new TypeNameSerializationBinder("ConsoleApplication.{0}, ConsoleApplication");
 
+            var obj = JsonConvert.DeserializeObject<ClassToSerializeViaJson>(json,
+                new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Auto,
+                    Binder = binder
+                });
+
+            this.fractals = obj.CollectionToSerialize;
+        }
+
+    }
+
+    /// <summary>
+    /// A class to serialize the list fractals from FractalEditor
+    /// </summary>
+    class ClassToSerializeViaJson
+    {
+        public ClassToSerializeViaJson()
+        {
+            this.CollectionToSerialize = new List<FractalTemplate.FractalTemplate>();
+        }
+        public List<FractalTemplate.FractalTemplate> CollectionToSerialize { get; set; }
+    }
+
+    public class TypeNameSerializationBinder : SerializationBinder
+    {
+        public string TypeFormat { get; private set; }
+
+        public TypeNameSerializationBinder(string typeFormat)
+        {
+            TypeFormat = typeFormat;
+        }
+
+        public override void BindToName(Type serializedType, out string assemblyName, out string typeName)
+        {
+            assemblyName = null;
+            typeName = serializedType.Name;
+        }
+
+        public override Type BindToType(string assemblyName, string typeName)
+        {
+            var resolvedTypeName = string.Format(TypeFormat, typeName);
+            return Type.GetType(resolvedTypeName, true);
         }
     }
 }
