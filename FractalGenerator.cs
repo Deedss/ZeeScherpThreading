@@ -41,7 +41,7 @@ namespace ZeeScherpThreading
         }
       
 
-        public void generate(FractalTemplate.FractalTemplate fractal, int nrOfThreads)
+        public bool generate(FractalTemplate.FractalTemplate fractal, int nrOfThreads)
         {
             this.nrOfThreads = nrOfThreads;
             this.fractalParts = new List<FractalPart>();
