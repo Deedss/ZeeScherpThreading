@@ -9,16 +9,10 @@
     Background="White">
 
     <Grid>
-        <NavigationView PaneTitle="De fraktaal samensteller" x:Name="NavView" Loaded="NavView_Loaded" ItemInvoked="NavView_ItemInvoked" IsBackButtonVisible="Collapsed" IsBackEnabled="False">
+        <NavigationView PaneTitle="De fraktaal samensteller" IsSettingsVisible="False" x:Name="NavView" Loaded="NavView_Loaded" ItemInvoked="NavView_ItemInvoked" IsBackButtonVisible="Collapsed" IsBackEnabled="False">
             <NavigationView.MenuItems>
-                
-                <NavigationViewItemHeader x:Name="Frjactal_shizzle" Content="Fractal options"/>
 
-                <NavigationViewItem Tag="Page6" Content="Add fractal">
-                    <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE710;"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                <NavigationViewItemHeader x:Name="Frjactal_shizzle" Content="Fractal options"/>
 
                 <NavigationViewItem Tag="Page3" Content="Edit fractal">
                     <NavigationViewItem.Icon>
@@ -69,20 +63,22 @@
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74E;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-
+                
             </NavigationView.MenuItems>
-
+            
+            <!--footer bende valt buiten navviewitems idk why-->
+            <NavigationView.PaneFooter>
+                <StackPanel x:Name="FooterStackPanel" Orientation="Vertical" Visibility="Visible">
+                    <NavigationViewItem Content="About" Icon="ContactInfo" AutomationProperties.Name="About" />
+                </StackPanel>
+            </NavigationView.PaneFooter>
+            
             <ScrollViewer>
                 <Frame x:Name="ContentFrame" Padding="12,0,12,24" IsTabStop="True"
                    NavigationFailed="ContentFrame_NavigationFailed"/>
             </ScrollViewer>
 
 
-            <NavigationView.PaneFooter>
-                <StackPanel x:Name="FooterStackPanel" Orientation="Vertical" Visibility="Visible">
-                    <NavigationViewItem Icon="ContactInfo" AutomationProperties.Name="About" />
-                </StackPanel>
-            </NavigationView.PaneFooter>
 
         </NavigationView>
 

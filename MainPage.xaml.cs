@@ -15,13 +15,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
 namespace ZeeScherpThreading
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
         public MainPage()
@@ -63,10 +58,12 @@ namespace ZeeScherpThreading
         private void NavView_ItemInvoked(NavigationView sender,
                                          NavigationViewItemInvokedEventArgs args)
         {
+            //if settings are needed
             if (args.IsSettingsInvoked == true)
             {
                 NavView_Navigate("settings", args.RecommendedNavigationTransitionInfo);
             }
+            //rest van de items
             else if (args.InvokedItemContainer != null)
             {
                 var navItemTag = args.InvokedItemContainer.Tag.ToString();
@@ -77,10 +74,12 @@ namespace ZeeScherpThreading
         private void NavView_SelectionChanged(NavigationView sender,
                                               NavigationViewSelectionChangedEventArgs args)
         {
+            //voor settings
             if (args.IsSettingsSelected == true)
             {
                 NavView_Navigate("settings", args.RecommendedNavigationTransitionInfo);
             }
+            //rest van de items
             else if (args.SelectedItemContainer != null)
             {
                 var navItemTag = args.SelectedItemContainer.Tag.ToString();
@@ -115,9 +114,9 @@ namespace ZeeScherpThreading
 
             if (ContentFrame.SourcePageType == typeof(Views.Settings))
             {
-                // settings moet weer speciaal doen 
+                //moet weer speciaal doen 
                 NavView.SelectedItem = (NavigationViewItem)NavView.SettingsItem;
-                NavView.Header = "settings";
+                NavView.Header = "Settings";
             }
             else if (ContentFrame.SourcePageType != null)
             {
