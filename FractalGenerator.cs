@@ -76,7 +76,7 @@ namespace ZeeScherpThreading
                 thr.Start();
 
             }
-            return true;
+     
           
         }
 
