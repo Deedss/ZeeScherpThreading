@@ -7,9 +7,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel Orientation="Vertical">
+        <StackPanel Name="aids" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Vertical" PointerWheelChanged="aids_PointerWheelChanged">
 
-    <StackPanel Name="aids" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Vertical" PointerWheelChanged="aids_PointerWheelChanged">
-       
+        </StackPanel>
+        <TextBlock x:Name="log" Text="" />
+        
     </StackPanel>
+   
 
 </Page>

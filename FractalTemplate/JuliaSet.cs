@@ -15,6 +15,7 @@ namespace ZeeScherpThreading.FractalTemplate
             this.x2 = 1.0;
             this.y1 = -1.0;
             this.y2 = 1.0;
+            this.name = "JuliaSet";
         }
 
         public override int[,] calculate(FractalPart fa)
@@ -25,19 +26,10 @@ namespace ZeeScherpThreading.FractalTemplate
 
             //real and imaginary part of the constant c, determinate shape of the Julia Set
             double cX, cY;
-            double moveX = 0.0, moveY = this.y1 / 2;
             double zx, zy;
 
-            double dx = (fa.x2 - fa.x1) / fa.getWidth();
-            double dy = (fa.y2 - fa.y1) / fa.getHeight();
-
-            // works singlethreaded, has to be constant
             cX = -0.7;
             cY = -0.27015;
-
-            Complex c = new Complex(0.7, -0.27015);
-            //cX = (fa.x2 - fa.x1) / dx;
-            //cY = (fa.y2 - fa.y1) / dy;
 
             // Loop through each 
             for (int Xcount = 0; Xcount < fa.getWidth(); Xcount++)
@@ -51,8 +43,8 @@ namespace ZeeScherpThreading.FractalTemplate
 
                     while (zx * zx + (zy * zy) < 4 && w < w_max)
                     {
-                        double tmp = zx * zx - zy * zy + c.Imaginary;
-                        zy = 2.0 * zx * zy + c.Real;
+                        double tmp = zx * zx - zy * zy + cX;
+                        zy = 2.0 * zx * zy + cY;
                         zx = tmp;
                         w++;
                     }

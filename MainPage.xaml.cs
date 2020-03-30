@@ -22,7 +22,7 @@ namespace ZeeScherpThreading
     {
         public FractalGenerator fractalgenerator;
         public List<FractalTemplate.FractalTemplate> templateList;
-
+        
         public MainPage()
         {
             this.InitializeComponent();
@@ -30,7 +30,10 @@ namespace ZeeScherpThreading
             fractalgenerator = new FractalGenerator();
             templateList = new List<FractalTemplate.FractalTemplate>();
             templateList.Add(new FractalTemplate.MandelBrot());
-           // templateList.Add(new FractalTemplate.KockSnowflake());
+            templateList.Add(new FractalTemplate.Circles());
+            templateList.Add(new FractalTemplate.JuliaSet());
+
+            fractalgenerator.setTemplate(templateList[0]);
         }
 
         private void ContentFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
@@ -141,5 +144,9 @@ namespace ZeeScherpThreading
                     ((NavigationViewItem)NavView.SelectedItem)?.Content?.ToString();
             }
         }
+
+       
+
+      
     }
 }

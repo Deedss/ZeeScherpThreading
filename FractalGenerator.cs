@@ -19,6 +19,7 @@ namespace ZeeScherpThreading
     public class FractalGenerator
     {
         private List<FractalPart> fractalParts = new List<FractalPart>();
+
         private int nrOfThreads;
         private FractalTemplate.FractalTemplate fractal;
         private Windows.UI.Color color;
@@ -75,7 +76,11 @@ namespace ZeeScherpThreading
             return this.nrOfThreads;
         }
 
-        public void generate()
+        public void clear()
+        {
+            this.sp.Children.Clear();
+        }
+        public void generate(Func<string, int> callback)
         {
             this.fractalParts = new List<FractalPart>();
 
@@ -100,17 +105,14 @@ namespace ZeeScherpThreading
                 Windows.UI.Xaml.Controls.Image img = new Windows.UI.Xaml.Controls.Image();
                 //img.Stretch = Windows.UI.Xaml.Media.Stretch.Uniform;
                 //img.Margin = new Thickness(0, -1, 0, 0);
-               
+
                 this.sp.Children.Add(img);
 
                 //Calculate every fractalpart on a new thread.
-                Thread thr = new Thread(() => generateFractalPart(part, fractal));
-
+                Thread thr = new Thread(() => generateFractalPart(part, fractal, callback));
+              
                 thr.Start();
-
             }
-     
-          
         }
 
         //Callback from thread when generating of fractal is done
@@ -124,7 +126,7 @@ namespace ZeeScherpThreading
           
         }
         
-        private async void generateFractalPart(FractalPart part, FractalTemplate.FractalTemplate fractal)
+        private async void generateFractalPart(FractalPart part, FractalTemplate.FractalTemplate fractal, Func<string, int> callback)
         {
             part.imageArray = new byte[part.getWidth() * part.getHeight() * 4];
             //Call the calculat fractal method
@@ -161,13 +163,12 @@ namespace ZeeScherpThreading
                     x = 0;
                 }
             }
-           
-         
-            //System.Threading.Thread.Sleep(new Random().Next(3,10) * 1000);
 
             //Callback to UI thread when generating is done, add to list and refresh current fractal parts on screen
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            { 
+            {
+                //callback to notify we are done
+                callback(part.pos.ToString());
                 await this.addFractalPartToUIAsync(part);
             });
 

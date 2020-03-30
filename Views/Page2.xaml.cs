@@ -38,6 +38,10 @@ namespace ZeeScherpThreading.Views
 			{
 				FractalBox.SelectedItem = main.fractalgenerator.getTemplate().name;
 			}
+			else
+			{
+				FractalBox.SelectedIndex = 0;
+			}
 
 		}
 

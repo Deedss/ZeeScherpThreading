@@ -38,17 +38,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
-                <NavigationViewItem Tag="" Content="Clear drawing" SelectsOnInvoked="False">
-                    <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE895;"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-
-                <NavigationViewItem Tag="" Content="Stop drawing" SelectsOnInvoked="False">
-                    <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE894;"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+               
 
                 <NavigationViewItemSeparator/>
 

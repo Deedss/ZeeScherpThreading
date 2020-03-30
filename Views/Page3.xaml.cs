@@ -28,9 +28,32 @@ namespace ZeeScherpThreading.Views
 			this.InitializeComponent();
 			var frame = (Frame)Window.Current.Content;
 			var main = (MainPage)frame.Content;
-			resolution.SelectedValue = main.fractalgenerator.getTemplate().getWidth() + "x"+ main.fractalgenerator.getTemplate().getHeight();
-			threads.SelectedValue = main.fractalgenerator.getNrOfThreads();
+
+			//Load if user selected value else load first item in list
+			if(main.fractalgenerator.getTemplate().getWidth() != 0 && main.fractalgenerator.getTemplate().getHeight() != 0)
+			{
+				resolution.SelectedValue = main.fractalgenerator.getTemplate().getWidth() + "x" + main.fractalgenerator.getTemplate().getHeight();
+			}
+			else
+			{
+				resolution.SelectedIndex = 0;
+			}
+
+			//Load if user selected value else load first item in list
+			if (main.fractalgenerator.getNrOfThreads() != 0)
+			{
+				threads.SelectedValue = main.fractalgenerator.getNrOfThreads();
+			}
+			else
+			{
+				threads.SelectedIndex = 0;
+			}
+			
 			color.Color = main.fractalgenerator.getColor();
+			x1.Text = main.fractalgenerator.getTemplate().x1.ToString();
+			x2.Text = main.fractalgenerator.getTemplate().x2.ToString();
+			y1.Text = main.fractalgenerator.getTemplate().y1.ToString();
+			y2.Text = main.fractalgenerator.getTemplate().y2.ToString();
 		}
 
 		private void resolution_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -64,6 +87,77 @@ namespace ZeeScherpThreading.Views
 			var main = (MainPage)frame.Content;
 
 			main.fractalgenerator.setColor(picker.Color);
+		}
+
+		private void x1_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			var frame = (Frame)Window.Current.Content;
+			var main = (MainPage)frame.Content;
+
+			TextBox t = (TextBox)sender;
+
+			FractalTemplate.FractalTemplate f = main.fractalgenerator.getTemplate();
+			try
+			{
+				f.x1 = Convert.ToDouble(t.Text);
+			}catch(Exception)
+			{
+
+			}
+		}
+
+		private void x2_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			var frame = (Frame)Window.Current.Content;
+			var main = (MainPage)frame.Content;
+
+			TextBox t = (TextBox)sender;
+
+			FractalTemplate.FractalTemplate f = main.fractalgenerator.getTemplate();
+			try
+			{
+				f.x2 = Convert.ToDouble(t.Text);
+			}
+			catch (Exception)
+			{
+
+			}
+		}
+
+		private void y2_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			var frame = (Frame)Window.Current.Content;
+			var main = (MainPage)frame.Content;
+
+			TextBox t = (TextBox)sender;
+
+			FractalTemplate.FractalTemplate f = main.fractalgenerator.getTemplate();
+			try
+			{
+				f.y2 = Convert.ToDouble(t.Text);
+			}
+			catch (Exception)
+			{
+
+			}
+		}
+
+		private void y1_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			var frame = (Frame)Window.Current.Content;
+			var main = (MainPage)frame.Content;
+
+			TextBox t = (TextBox)sender;
+
+			FractalTemplate.FractalTemplate f = main.fractalgenerator.getTemplate();
+			try
+			{
+				f.y1 = Convert.ToDouble(t.Text);
+			}
+			catch (Exception)
+			{
+
+			}
 		}
 	}
 }

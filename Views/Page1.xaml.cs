@@ -28,11 +28,35 @@ namespace ZeeScherpThreading.Views
 		{
 			this.InitializeComponent();
 
+			
+
+			generate();
+		}
+
+		private void generate()
+		{
 			var frame = (Frame)Window.Current.Content;
 			var main = (MainPage)frame.Content;
-
 			main.fractalgenerator.setStackPanel(aids);
-			main.fractalgenerator.generate();
+
+			log.Text = "";
+
+			Stopwatch stopwatch = new Stopwatch();
+			stopwatch.Start();
+			int threadDone = 0;
+
+			main.fractalgenerator.generate((string x) => {
+				//Callback when thread is done generating
+				log.Text += "\nThread: " + x + " is done";
+				threadDone++;
+				if (threadDone == main.fractalgenerator.getNrOfThreads())
+				{
+					//When all threads done stop the stopwatch
+					stopwatch.Stop();
+					log.Text += "\n\nTotal time to draw: " + stopwatch.Elapsed.ToString();
+				}
+				return 1;
+			});
 		}
 
 		public StackPanel getCanvas()
@@ -42,19 +66,24 @@ namespace ZeeScherpThreading.Views
 
 		private void aids_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
 		{
-			/*if (!fg.isGenerating())
+			var frame = (Frame)Window.Current.Content;
+			var main = (MainPage)frame.Content;
+
+			if (!main.fractalgenerator.isGenerating())
 			{
 				var delta = e.GetCurrentPoint((UIElement)sender).Properties.MouseWheelDelta;
 				//Move up
 				double step = Convert.ToDouble(delta) / 1000.0;
 
-				fractal.x1 += step;
-				fractal.x2 -= step;
-				fractal.y1 -= step;
-				fractal.y2 += step;
+				FractalTemplate.FractalTemplate f = main.fractalgenerator.getTemplate();
 
-				fg.generate(fractal, 4);
-			}*/
+				f.x1 += step;
+				f.x2 -= step;
+				f.y1 -= step;
+				f.y2 += step;
+				main.fractalgenerator.setTemplate(f);
+				this.generate();
+			}
 		}
 
 	
