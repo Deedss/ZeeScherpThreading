@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -25,6 +26,29 @@ namespace ZeeScherpThreading.Views
 		public Page2()
 		{
 			this.InitializeComponent();
+			var frame = (Frame)Window.Current.Content;
+			var main = (MainPage)frame.Content;
+
+			foreach (FractalTemplate.FractalTemplate template in main.templateList)
+			{
+				FractalBox.Items.Add(template.name);
+			}
+
+			if (main.fractalgenerator.getTemplate() != null)
+			{
+				FractalBox.SelectedItem = main.fractalgenerator.getTemplate().name;
+			}
+
+		}
+
+		private void FractalBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			var frame = (Frame)Window.Current.Content;
+			var main = (MainPage)frame.Content;
+			var combo = sender as ComboBox;
+	
+			main.fractalgenerator.setTemplate(main.templateList[combo.SelectedIndex]);
+			
 		}
 	}
 }

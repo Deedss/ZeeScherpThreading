@@ -9,12 +9,9 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <!-- SelectionChanged="ColorComboBox_SelectionChanged" -->
-        <ComboBox Header="Select fractal" PlaceholderText="-" Margin="174,138,0,0" Width="200" Height="55">
-            <x:String>Fractal 1</x:String>
-            <x:String>Fractal 2</x:String>
-            <x:String>Fractal 3</x:String>
-            <x:String>Fractal 4</x:String>
+        
+        <ComboBox x:Name="FractalBox" Header="Select fractal" PlaceholderText="-" Margin="174,138,0,0" Width="200" Height="55" SelectionChanged="FractalBox_SelectionChanged">
+            
         </ComboBox>
     </Grid>
 </Page>

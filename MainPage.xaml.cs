@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -19,9 +20,17 @@ namespace ZeeScherpThreading
 {
     public sealed partial class MainPage : Page
     {
+        public FractalGenerator fractalgenerator;
+        public List<FractalTemplate.FractalTemplate> templateList;
+
         public MainPage()
         {
             this.InitializeComponent();
+
+            fractalgenerator = new FractalGenerator();
+            templateList = new List<FractalTemplate.FractalTemplate>();
+            templateList.Add(new FractalTemplate.MandelBrot());
+           // templateList.Add(new FractalTemplate.KockSnowflake());
         }
 
         private void ContentFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
@@ -106,6 +115,8 @@ namespace ZeeScherpThreading
             {
                 ContentFrame.Navigate(_page, null, transitionInfo);
             }
+
+           
         }
 
         private void On_Navigated(object sender, NavigationEventArgs e)

@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace ZeeScherpThreading.FractalTemplate
 {
-    abstract class FractalTemplate
+    public abstract class FractalTemplate
     {
         private int width, height, iterations = 1;
         public double x1, x2, y1, y2;
+        public String name;
 
         public FractalTemplate()
         {

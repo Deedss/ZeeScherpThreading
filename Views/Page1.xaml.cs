@@ -23,36 +23,26 @@ namespace ZeeScherpThreading.Views
 	/// </summary>
 	public sealed partial class Page1 : Page
 	{
-		FractalTemplate.MandelBrot fractal;
-		FractalGenerator fg;
-		double correctX;
-			double correctY;
+		
 		public Page1()
 		{
 			this.InitializeComponent();
-			fg = new FractalGenerator(aids);
-			fractal = new FractalTemplate.MandelBrot();
-			fractal.setWidth(1000);
-			fractal.setHeight(1000);
 
-			fg.generate(fractal, 23);
-			
+			var frame = (Frame)Window.Current.Content;
+			var main = (MainPage)frame.Content;
+
+			main.fractalgenerator.setStackPanel(aids);
+			main.fractalgenerator.generate();
 		}
 
-	
-		private void aids_PointerMoved(object sender, PointerRoutedEventArgs e)
+		public StackPanel getCanvas()
 		{
-			Point p = e.GetCurrentPoint(sender as StackPanel).Position;
-			StackPanel s = sender as StackPanel;
-
-			/*correctX = (p.X * fractal.getWidth()) / s.ActualWidth;
-			correctY = (p.Y * fractal.getHeight()) / s.ActualWidth;*/
-			
+			return this.aids;
 		}
 
 		private void aids_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
 		{
-			if (!fg.isGenerating())
+			/*if (!fg.isGenerating())
 			{
 				var delta = e.GetCurrentPoint((UIElement)sender).Properties.MouseWheelDelta;
 				//Move up
@@ -64,7 +54,9 @@ namespace ZeeScherpThreading.Views
 				fractal.y2 += step;
 
 				fg.generate(fractal, 4);
-			}
+			}*/
 		}
+
+	
 	}
 }

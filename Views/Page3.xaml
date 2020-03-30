@@ -11,26 +11,27 @@
     <Grid>
 
         <!-- SelectionChanged="ColorComboBox_SelectionChanged" -->
-        <ComboBox Header="Select resolution" PlaceholderText="-" Margin="57,37,0,0" RenderTransformOrigin="0.479,0.438" Width="200">
-            <x:String>1080 x 720</x:String>
-            <x:String>1920 x 1080</x:String>
-            <x:String>3840 x 2160</x:String>
-            <x:String>7680 x 4320</x:String>
+        <ComboBox x:Name="resolution" Header="Select resolution" PlaceholderText="-" Margin="57,37,0,0" RenderTransformOrigin="0.479,0.438" Width="200" SelectionChanged="resolution_SelectionChanged">
+            <x:String>500x500</x:String>
+            <x:String>1080x720</x:String>
+            <x:String>1920x1080</x:String>
+            <x:String>3840x2160</x:String>
+            <x:String>7680x4320</x:String>
         </ComboBox>
 
-        <ComboBox Header="Number of threads" PlaceholderText="-" Margin="57,115,0,0" RenderTransformOrigin="0.479,0.438" Height="55" Width="200">
-            <x:String>1</x:String>
-            <x:String>2</x:String>
-            <x:String>4</x:String>
-            <x:String>8</x:String>
-            <x:String>16</x:String>
+        <ComboBox x:Name="threads" Header="Number of threads" PlaceholderText="-" Margin="57,115,0,0" RenderTransformOrigin="0.479,0.438" Height="55" Width="200" SelectionChanged="threads_SelectionChanged">
+            <x:Int32>1</x:Int32>
+            <x:Int32>2</x:Int32>
+            <x:Int32>4</x:Int32>
+            <x:Int32>8</x:Int32>
+            <x:Int32>16</x:Int32>
         </ComboBox>
 
-        <ColorPicker Margin="345,37,0,0" HorizontalAlignment="Left" Width="392" Height="573" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="80,208,0,0" PlaceholderText="X1" Text="" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.479,0.438"/>
-        <TextBox HorizontalAlignment="Left" Margin="171,208,0,0" PlaceholderText="X2" Text="" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.479,0.438"/>
-        <TextBox HorizontalAlignment="Left" Margin="171,256,0,0" PlaceholderText="Y1" Text="" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.479,0.438"/>
-        <TextBox HorizontalAlignment="Left" Margin="80,256,0,0" PlaceholderText="Y2" Text="" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.479,0.438"/>
+        <ColorPicker x:Name="color" Margin="345,37,0,0" HorizontalAlignment="Left" Width="392" Height="573" VerticalAlignment="Top" ColorChanged="color_ColorChanged"/>
+        <TextBox x:Name="x1" HorizontalAlignment="Left" Margin="80,208,0,0" PlaceholderText="X1" Text="" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.479,0.438"/>
+        <TextBox x:Name="x2" HorizontalAlignment="Left" Margin="171,208,0,0" PlaceholderText="X2" Text="" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.479,0.438"/>
+        <TextBox x:Name="y1" HorizontalAlignment="Left" Margin="171,256,0,0" PlaceholderText="Y1" Text="" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.479,0.438"/>
+        <TextBox x:Name="y2" HorizontalAlignment="Left" Margin="80,256,0,0" PlaceholderText="Y2" Text="" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.479,0.438"/>
 
     </Grid>
 

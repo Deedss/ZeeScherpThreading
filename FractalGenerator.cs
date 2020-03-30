@@ -16,14 +16,29 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace ZeeScherpThreading
 {
-    class FractalGenerator
+    public class FractalGenerator
     {
         private List<FractalPart> fractalParts = new List<FractalPart>();
         private int nrOfThreads;
-
+        private FractalTemplate.FractalTemplate fractal;
+        private Windows.UI.Color color;
         private StackPanel sp;
 
-        public FractalGenerator(StackPanel sp)
+        public FractalGenerator()
+        {
+           
+        }
+
+        public void setColor(Windows.UI.Color c)
+        {
+            this.color = c;
+        }
+        public Windows.UI.Color getColor()
+        {
+            return this.color;
+        }
+
+        public void setStackPanel(StackPanel sp)
         {
             this.sp = sp;
         }
@@ -40,10 +55,28 @@ namespace ZeeScherpThreading
             return false;
         }
       
-
-        public bool generate(FractalTemplate.FractalTemplate fractal, int nrOfThreads)
+        public void setTemplate(FractalTemplate.FractalTemplate fractal)
         {
-            this.nrOfThreads = nrOfThreads;
+            this.fractal = fractal;
+        }
+
+        public FractalTemplate.FractalTemplate getTemplate()
+        {
+            return this.fractal;
+        }
+
+        public void setNrOfThreads(int nr)
+        {
+            this.nrOfThreads = nr;
+        }
+
+        public int getNrOfThreads()
+        {
+            return this.nrOfThreads;
+        }
+
+        public void generate()
+        {
             this.fractalParts = new List<FractalPart>();
 
             //For amount of threads split the fractal up into FractalParts
@@ -83,16 +116,13 @@ namespace ZeeScherpThreading
         //Callback from thread when generating of fractal is done
         private async Task addFractalPartToUIAsync(FractalPart part)
         {
-           /* WriteableBitmap fractalBitmap = new WriteableBitmap(part.getWidth(), part.getHeight());
-            using (Stream stream = fractalBitmap.PixelBuffer.AsStream()) { stream.Write(part.imageArray, 0, part.imageArray.Length); }*/
-            //img.Stretch = Windows.UI.Xaml.Media.Stretch.None;
             Windows.UI.Xaml.Controls.Image img = sp.Children[part.pos] as Windows.UI.Xaml.Controls.Image;
 
             WriteableBitmap w = new WriteableBitmap(part.getWidth(), part.getHeight());
             img.Source = w;
             using (Stream stream = w.PixelBuffer.AsStream()) { await stream.WriteAsync(part.imageArray, 0, part.imageArray.Length); }
           
-            }
+        }
         
         private async void generateFractalPart(FractalPart part, FractalTemplate.FractalTemplate fractal)
         {
@@ -107,9 +137,18 @@ namespace ZeeScherpThreading
                 //BGRA format
                 int R = 0, G = 0, B = 0;
 
-                R = pixels[x, y];
-                G = pixels[x, y];
-                B = pixels[x, y];
+                if (color.R != 0 && color.G != 0 && color.B != 0)
+                {
+                    R = pixels[x, y] % this.color.R;
+                    G = pixels[x, y] % this.color.G;
+                    B = pixels[x, y] % this.color.B;
+                }
+                else
+                {
+                    R = pixels[x, y];
+                    G = pixels[x, y];
+                    B = pixels[x, y];
+                }
 
                 part.imageArray[i] = Convert.ToByte(B); //blue
                 part.imageArray[i + 1] = Convert.ToByte(G); //green

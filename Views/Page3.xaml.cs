@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -25,6 +26,44 @@ namespace ZeeScherpThreading.Views
 		public Page3()
 		{
 			this.InitializeComponent();
+			var frame = (Frame)Window.Current.Content;
+			var main = (MainPage)frame.Content;
+			resolution.SelectedValue = main.fractalgenerator.getTemplate().getWidth() + "x"+ main.fractalgenerator.getTemplate().getHeight();
+			threads.SelectedValue = main.fractalgenerator.getNrOfThreads();
+			color.Color = main.fractalgenerator.getColor();
+		}
+
+		private void resolution_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			var frame = (Frame)Window.Current.Content;
+			var main = (MainPage)frame.Content;
+			var combo = sender as ComboBox;
+
+			FractalTemplate.FractalTemplate f = main.fractalgenerator.getTemplate();
+
+			String[] wh = combo.SelectedValue.ToString().Split('x');
+
+			f.setWidth(Convert.ToInt32(wh[0]));
+			f.setHeight(Convert.ToInt32(wh[1]));
+
+		}
+
+		private void threads_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			var frame = (Frame)Window.Current.Content;
+			var main = (MainPage)frame.Content;
+			var combo = sender as ComboBox;
+
+			main.fractalgenerator.setNrOfThreads(Convert.ToInt32(combo.SelectedValue));
+		}
+
+		private void color_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
+		{
+			var picker = sender as ColorPicker;
+			var frame = (Frame)Window.Current.Content;
+			var main = (MainPage)frame.Content;
+
+			main.fractalgenerator.setColor(picker.Color);
 		}
 	}
 }

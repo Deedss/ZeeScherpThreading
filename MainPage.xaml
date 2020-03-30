@@ -14,17 +14,19 @@
 
                 <NavigationViewItemHeader x:Name="Frjactal_shizzle" Content="Fractal options"/>
 
+               
+                <NavigationViewItem Tag="Page2" Content="Select fractal">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF16C;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
                 <NavigationViewItem Tag="Page3" Content="Edit fractal">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE70F;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
-                <NavigationViewItem Tag="Page2" Content="Select fractal">
-                    <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF16C;"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
 
                 <NavigationViewItemSeparator/>
 
@@ -52,11 +54,7 @@
 
                 <NavigationViewItemHeader x:Name="insert_idris_elba_fucking_dies" Content="General options"/>
 
-                <NavigationViewItem Tag="Page5" Content="Number of iterations">
-                    <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8ED;"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+               
 
                 <NavigationViewItem Tag="" Content="Load or save fractal" SelectsOnInvoked="False">
                     <NavigationViewItem.Icon>

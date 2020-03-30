@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ZeeScherpThreading
 {
-    class FractalPart
+    public class FractalPart
     {
         public double x1, x2, y1, y2;
         public int width, height, pos;
