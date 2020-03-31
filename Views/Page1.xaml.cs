@@ -49,7 +49,7 @@ namespace ZeeScherpThreading.Views
 				//Callback when thread is done generating
 				log.Text += "\nThread: " + x + " is done";
 				threadDone++;
-				if (threadDone == main.fractalgenerator.getNrOfThreads())
+				if (threadDone == main.fractalgenerator.getTemplate().getNrOfThreads())
 				{
 					//When all threads done stop the stopwatch
 					stopwatch.Stop();

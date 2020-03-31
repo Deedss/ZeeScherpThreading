@@ -12,11 +12,32 @@ namespace ZeeScherpThreading.FractalTemplate
         private int width, height, iterations = 1;
         public double x1, x2, y1, y2;
         public String name;
-
+        private int nrOfThreads;
+        private Windows.UI.Color color;
         public FractalTemplate()
         {
 
         }
+
+        public void setColor(Windows.UI.Color c)
+        {
+            this.color = c;
+        }
+        public Windows.UI.Color getColor()
+        {
+            return this.color;
+        }
+
+        public void setNrOfThreads(int nr)
+        {
+            this.nrOfThreads = nr;
+        }
+
+        public int getNrOfThreads()
+        {
+            return this.nrOfThreads;
+        }
+
 
         public int getWidth()
         {

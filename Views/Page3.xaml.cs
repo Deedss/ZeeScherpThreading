@@ -40,16 +40,16 @@ namespace ZeeScherpThreading.Views
 			}
 
 			//Load if user selected value else load first item in list
-			if (main.fractalgenerator.getNrOfThreads() != 0)
+			if (main.fractalgenerator.getTemplate().getNrOfThreads() != 0)
 			{
-				threads.SelectedValue = main.fractalgenerator.getNrOfThreads();
+				threads.SelectedValue = main.fractalgenerator.getTemplate().getNrOfThreads();
 			}
 			else
 			{
 				threads.SelectedIndex = 0;
 			}
 			
-			color.Color = main.fractalgenerator.getColor();
+			color.Color = main.fractalgenerator.getTemplate().getColor();
 			x1.Text = main.fractalgenerator.getTemplate().x1.ToString();
 			x2.Text = main.fractalgenerator.getTemplate().x2.ToString();
 			y1.Text = main.fractalgenerator.getTemplate().y1.ToString();
@@ -77,7 +77,7 @@ namespace ZeeScherpThreading.Views
 			var main = (MainPage)frame.Content;
 			var combo = sender as ComboBox;
 
-			main.fractalgenerator.setNrOfThreads(Convert.ToInt32(combo.SelectedValue));
+			main.fractalgenerator.getTemplate().setNrOfThreads(Convert.ToInt32(combo.SelectedValue));
 		}
 
 		private void color_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
@@ -86,7 +86,7 @@ namespace ZeeScherpThreading.Views
 			var frame = (Frame)Window.Current.Content;
 			var main = (MainPage)frame.Content;
 
-			main.fractalgenerator.setColor(picker.Color);
+			main.fractalgenerator.getTemplate().setColor(picker.Color);
 		}
 
 		private void x1_TextChanged(object sender, TextChangedEventArgs e)

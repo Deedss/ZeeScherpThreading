@@ -20,9 +20,7 @@ namespace ZeeScherpThreading
     {
         private List<FractalPart> fractalParts = new List<FractalPart>();
 
-        private int nrOfThreads;
         private FractalTemplate.FractalTemplate fractal;
-        private Windows.UI.Color color;
         private StackPanel sp;
 
         public FractalGenerator()
@@ -30,15 +28,7 @@ namespace ZeeScherpThreading
            
         }
 
-        public void setColor(Windows.UI.Color c)
-        {
-            this.color = c;
-        }
-        public Windows.UI.Color getColor()
-        {
-            return this.color;
-        }
-
+      
         public void setStackPanel(StackPanel sp)
         {
             this.sp = sp;
@@ -66,16 +56,6 @@ namespace ZeeScherpThreading
             return this.fractal;
         }
 
-        public void setNrOfThreads(int nr)
-        {
-            this.nrOfThreads = nr;
-        }
-
-        public int getNrOfThreads()
-        {
-            return this.nrOfThreads;
-        }
-
         public void clear()
         {
             this.sp.Children.Clear();
@@ -85,17 +65,17 @@ namespace ZeeScherpThreading
             this.fractalParts = new List<FractalPart>();
 
             //For amount of threads split the fractal up into FractalParts
-            double step = Convert.ToDouble((Math.Abs(fractal.y1) + Math.Abs(fractal.y2))) / Convert.ToDouble(this.nrOfThreads);
+            double step = Convert.ToDouble((Math.Abs(fractal.y1) + Math.Abs(fractal.y2))) / Convert.ToDouble(this.fractal.getNrOfThreads());
             double y1 = fractal.y1;
             double y2 = (y1 - step);
 
             int partNum = 0;
             this.sp.Children.Clear();
-            while (partNum != this.nrOfThreads)
+            while (partNum != this.fractal.getNrOfThreads())
             {
                 FractalPart part = new FractalPart(fractal.x1,
                     fractal.x2, y1, y2,
-                    fractal.getWidth(), fractal.getHeight() / this.nrOfThreads, partNum);
+                    fractal.getWidth(), fractal.getHeight() / this.fractal.getNrOfThreads(), partNum);
                 this.fractalParts.Add(part);
                 partNum++;
 
@@ -139,11 +119,11 @@ namespace ZeeScherpThreading
                 //BGRA format
                 int R = 0, G = 0, B = 0;
 
-                if (color.R != 0 && color.G != 0 && color.B != 0)
+                if (fractal.getColor().R != 0 && fractal.getColor().G != 0 && fractal.getColor().B != 0)
                 {
-                    R = pixels[x, y] % this.color.R;
-                    G = pixels[x, y] % this.color.G;
-                    B = pixels[x, y] % this.color.B;
+                    R = pixels[x, y] % this.fractal.getColor().R;
+                    G = pixels[x, y] % this.fractal.getColor().G;
+                    B = pixels[x, y] % this.fractal.getColor().B;
                 }
                 else
                 {
