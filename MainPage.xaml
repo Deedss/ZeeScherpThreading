@@ -14,7 +14,6 @@
 
                 <NavigationViewItemHeader x:Name="Frjactal_shizzle" Content="Fractal options"/>
 
-               
                 <NavigationViewItem Tag="Page2" Content="Select fractal">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF16C;"/>
@@ -26,7 +25,12 @@
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE70F;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-
+                
+                <NavigationViewItem Tag="Add" Content="Add fractal">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE710;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
 
                 <NavigationViewItemSeparator/>
 
@@ -38,29 +42,35 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
-               
+
 
                 <NavigationViewItemSeparator/>
 
-                <NavigationViewItemHeader x:Name="insert_idris_elba_fucking_dies" Content="General options"/>
+                <NavigationViewItemHeader x:Name="general_options" Content="General options"/>
 
-               
 
-                <NavigationViewItem Tag="" Content="Load or save fractal" SelectsOnInvoked="False">
+
+                <NavigationViewItem Tag="" Content="Load Fractals" SelectsOnInvoked="False" Tapped="NavigationViewItem_Tapped">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8E5;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Tag="" Content="Save Fractals" SelectsOnInvoked="False" Tapped="NavigationViewItem_Tapped_1">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74E;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                
+                <NavigationViewItem Tag="About" Content="About" Icon="ContactInfo" AutomationProperties.Name="About" />
             </NavigationView.MenuItems>
-            
+
             <!--footer bende valt buiten navviewitems idk why-->
             <NavigationView.PaneFooter>
                 <StackPanel x:Name="FooterStackPanel" Orientation="Vertical" Visibility="Visible">
-                    <NavigationViewItem Content="About" Icon="ContactInfo" AutomationProperties.Name="About" />
+                   
                 </StackPanel>
             </NavigationView.PaneFooter>
-            
+
             <ScrollViewer>
                 <Frame x:Name="ContentFrame" Padding="12,0,12,24" IsTabStop="True"
                    NavigationFailed="ContentFrame_NavigationFailed"/>

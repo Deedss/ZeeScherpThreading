@@ -21,10 +21,10 @@ namespace ZeeScherpThreading.Views
 	/// <summary>
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
-	public sealed partial class Page1 : Page
+	public sealed partial class DrawFractal : Page
 	{
 		
-		public Page1()
+		public DrawFractal()
 		{
 			this.InitializeComponent();
 

@@ -9,11 +9,11 @@ namespace ZeeScherpThreading.FractalTemplate
 {
     public abstract class FractalTemplate
     {
-        private int width, height, iterations = 1;
+        public int width, height, iterations = 1;
         public double x1, x2, y1, y2;
         public String name;
-        private int nrOfThreads;
-        private Windows.UI.Color color;
+        public int nrOfThreads;
+        public Windows.UI.Color color;
         public FractalTemplate()
         {
 

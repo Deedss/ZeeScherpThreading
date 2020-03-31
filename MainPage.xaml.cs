@@ -20,21 +20,20 @@ namespace ZeeScherpThreading
 {
     public sealed partial class MainPage : Page
     {
-        public FractalGenerator fractalgenerator;
-        public List<FractalTemplate.FractalTemplate> templateList;
+        public FractalGenerator fractalgenerator = new FractalGenerator();
+        public FractalEditor fractaleditor = new FractalEditor();
         
         public MainPage()
         {
             this.InitializeComponent();
 
-            fractalgenerator = new FractalGenerator();
-            templateList = new List<FractalTemplate.FractalTemplate>();
-            templateList.Add(new FractalTemplate.MandelBrot());
-            templateList.Add(new FractalTemplate.Circles());
-            templateList.Add(new FractalTemplate.JuliaSet());
+            fractaleditor.GetFractals().Add(new FractalTemplate.MandelBrot());
+            fractaleditor.GetFractals().Add(new FractalTemplate.JuliaSet());
 
-            fractalgenerator.setTemplate(templateList[0]);
+            fractalgenerator.setTemplate(fractaleditor.GetFractals()[0]);
         }
+
+       
 
         private void ContentFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
         {
@@ -43,12 +42,11 @@ namespace ZeeScherpThreading
 
         // pageyboies
         private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>{
-            ("Page1", typeof(Views.Page1)),
-            ("Page2", typeof(Views.Page2)),
-            ("Page3", typeof(Views.Page3)),
-            ("Page4", typeof(Views.Page4)),
-            ("Page5", typeof(Views.Page5)),
-            ("Page6", typeof(Views.Page6)),
+            ("Page1", typeof(Views.DrawFractal)),
+            ("Page2", typeof(Views.SelectFractal)),
+            ("Page3", typeof(Views.EditFractal)),
+            ("Add", typeof(Views.Add)),
+            ("About", typeof(Views.About)),
         };
 
         private void NavView_Loaded(object sender, RoutedEventArgs e){
@@ -99,7 +97,7 @@ namespace ZeeScherpThreading
             }
         }
 
-        private void NavView_Navigate(string navItemTag, NavigationTransitionInfo transitionInfo)
+        public void NavView_Navigate(string navItemTag, NavigationTransitionInfo transitionInfo)
         {
             Type _page = null;
             if (navItemTag == "settings")
@@ -118,8 +116,6 @@ namespace ZeeScherpThreading
             {
                 ContentFrame.Navigate(_page, null, transitionInfo);
             }
-
-           
         }
 
         private void On_Navigated(object sender, NavigationEventArgs e)
@@ -145,8 +141,34 @@ namespace ZeeScherpThreading
             }
         }
 
-       
+        private async void NavigationViewItem_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var picker = new Windows.Storage.Pickers.FileOpenPicker();
+            picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
+            picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
+            picker.FileTypeFilter.Add(".fs");
 
-      
+            Windows.Storage.StorageFile file = await picker.PickSingleFileAsync();
+            if (file != null)
+            {
+                await fractaleditor.LoadFractals(file);
+            
+                NavView_Navigate("Page2", new EntranceNavigationTransitionInfo());
+            }
+        }
+
+        private async void NavigationViewItem_Tapped_1(object sender, TappedRoutedEventArgs e)
+        {
+            
+            var savePicker = new Windows.Storage.Pickers.FileSavePicker();
+            savePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
+            // Dropdown of file types the user can save the file as
+            savePicker.FileTypeChoices.Add("FractaalSamensteller bestand", new List<string>() { ".fs" });
+            // Default file name if the user does not type one in or select a file to replace
+            savePicker.SuggestedFileName = "Fractals";
+
+            Windows.Storage.StorageFile file = await savePicker.PickSaveFileAsync();
+            fractaleditor.SaveFractals(file);
+        }
     }
 }

@@ -21,15 +21,15 @@ namespace ZeeScherpThreading.Views
 	/// <summary>
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
-	public sealed partial class Page2 : Page
+	public sealed partial class SelectFractal : Page
 	{
-		public Page2()
+		public SelectFractal()
 		{
 			this.InitializeComponent();
 			var frame = (Frame)Window.Current.Content;
 			var main = (MainPage)frame.Content;
 
-			foreach (FractalTemplate.FractalTemplate template in main.templateList)
+			foreach (FractalTemplate.FractalTemplate template in main.fractaleditor.GetFractals())
 			{
 				FractalBox.Items.Add(template.name);
 			}
@@ -51,7 +51,7 @@ namespace ZeeScherpThreading.Views
 			var main = (MainPage)frame.Content;
 			var combo = sender as ComboBox;
 	
-			main.fractalgenerator.setTemplate(main.templateList[combo.SelectedIndex]);
+			main.fractalgenerator.setTemplate(main.fractaleditor.GetFractals()[combo.SelectedIndex]);
 			
 		}
 	}

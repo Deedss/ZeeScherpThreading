@@ -14,7 +14,7 @@ namespace ZeeScherpThreading.FractalTemplate
             this.x2 = 1.0;
             this.y1 = 1.0;
             this.y2 = -1.0;
-            this.name = "MandelBrot";
+            this.name = "Standaard MandelBrot";
         }
 
         public override int[,] calculate(FractalPart fa)

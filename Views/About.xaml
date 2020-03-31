@@ -1,0 +1,22 @@
+﻿<Page
+    x:Class="ZeeScherpThreading.Views.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ZeeScherpThreading.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock FontSize="20"><LineBreak/>
+        Gertjan Rolink -  gertjan.rolink@student.nhlstenden.com<LineBreak/>
+        Luuk Esselbrugge -  luuk.esselbrugge@student.nhlstenden.com<LineBreak/>
+        Robin Kolk -  robin.kolk@student.nhlstenden.com<LineBreak/>
+        Sidoi Klumper -  sidoi.klumper@student.nhlstenden.com<LineBreak/>
+        Stefan Klok -  stefan.klok@student.nhlstenden.com
+
+            <LineBreak/>
+        </TextBlock>
+    </Grid>
+</Page>
