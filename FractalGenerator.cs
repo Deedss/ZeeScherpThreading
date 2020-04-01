@@ -16,6 +16,9 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace ZeeScherpThreading
 {
+    /// <summary>
+    /// FractalGenerator manages all fractal templates
+    /// </summary>
     public class FractalGenerator
     {
         private List<FractalPart> fractalParts = new List<FractalPart>();
@@ -23,17 +26,17 @@ namespace ZeeScherpThreading
         private FractalTemplate.FractalTemplate fractal;
         private StackPanel sp;
 
-        public FractalGenerator()
-        {
-           
-        }
-
-      
+        /// <summary>
+        /// Set UI element to draw elements on
+        /// </summary>
         public void setStackPanel(StackPanel sp)
         {
             this.sp = sp;
         }
 
+        /// <summary>
+        /// Checks if generator is still generating fractal parts
+        /// </summary>
         public Boolean isGenerating()
         {
             foreach (FractalPart part in this.fractalParts)
@@ -45,21 +48,36 @@ namespace ZeeScherpThreading
             }
             return false;
         }
-      
+
+        /// <summary>
+        /// Set current template to draw fractal parts with
+        /// </summary>
         public void setTemplate(FractalTemplate.FractalTemplate fractal)
         {
             this.fractal = fractal;
         }
 
+        /// <summary>
+        /// Return current fractal template
+        /// </summary>
         public FractalTemplate.FractalTemplate getTemplate()
         {
             return this.fractal;
         }
 
+        /// <summary>
+        /// Clear all fractal parts from the UI
+        /// </summary>
         public void clear()
         {
             this.sp.Children.Clear();
         }
+
+        /// <summary>
+        /// Generate fractal parts based on current template and update UI
+        /// A fractal gets split up into x amount of parts
+        /// Every fractalpart gets added to a new thread, when the thread is done a callback method will be called and the UI will be updated.
+        /// </summary>
         public void generate(Func<string, int> callback)
         {
             this.fractalParts = new List<FractalPart>();
@@ -83,9 +101,6 @@ namespace ZeeScherpThreading
                 y2 = (y1 - step);
                 //Add placeholder part to show loading
                 Windows.UI.Xaml.Controls.Image img = new Windows.UI.Xaml.Controls.Image();
-                //img.Stretch = Windows.UI.Xaml.Media.Stretch.Uniform;
-                //img.Margin = new Thickness(0, -1, 0, 0);
-
                 this.sp.Children.Add(img);
 
                 //Calculate every fractalpart on a new thread.
@@ -95,17 +110,23 @@ namespace ZeeScherpThreading
             }
         }
 
-        //Callback from thread when generating of fractal is done
+        /// <summary>
+        /// UI Thrad callback when generating fractal part is done
+        /// Part will be converted to bitmap and added to UI
+        /// </summary>
         private async Task addFractalPartToUIAsync(FractalPart part)
         {
-            Windows.UI.Xaml.Controls.Image img = sp.Children[part.pos] as Windows.UI.Xaml.Controls.Image;
+            Windows.UI.Xaml.Controls.Image img = sp.Children[part.getPos()] as Windows.UI.Xaml.Controls.Image;
 
             WriteableBitmap w = new WriteableBitmap(part.getWidth(), part.getHeight());
             img.Source = w;
             using (Stream stream = w.PixelBuffer.AsStream()) { await stream.WriteAsync(part.imageArray, 0, part.imageArray.Length); }
           
         }
-        
+
+        /// <summary>
+        /// Calculate and generate the fractalpart pixels and store in pixels array
+        /// </summary>
         private async void generateFractalPart(FractalPart part, FractalTemplate.FractalTemplate fractal, Func<string, int> callback)
         {
             part.imageArray = new byte[part.getWidth() * part.getHeight() * 4];
@@ -148,7 +169,7 @@ namespace ZeeScherpThreading
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 //callback to notify we are done
-                callback(part.pos.ToString());
+                callback(part.getPos().ToString());
                 await this.addFractalPartToUIAsync(part);
             });
 

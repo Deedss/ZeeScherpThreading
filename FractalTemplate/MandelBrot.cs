@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace ZeeScherpThreading.FractalTemplate
 {
+    /// <summary>
+    /// MandelBrot fractal template
+    /// </summary>
     class MandelBrot : FractalTemplate
     {
         public MandelBrot()
         {
+            //Set the default constants
             this.x1 = -2.0;
             this.x2 = 1.0;
             this.y1 = 1.0;
@@ -20,6 +24,7 @@ namespace ZeeScherpThreading.FractalTemplate
         public override int[,] calculate(FractalPart fa)
         {
             int w;
+            //set max pixel value range from 0-255
             int w_max = 255;
             int[,] pixels = new int[fa.getWidth(), fa.getHeight()];
 
@@ -42,7 +47,7 @@ namespace ZeeScherpThreading.FractalTemplate
                     zr2 = 0;
                     zi2 = 0;
 
-                    // Fractal berekenen
+                    // Calculate fractal
                     while (((zr2 + zi2) < 4) && (w < w_max))
                     {
                         zrt = zr2 - zi2 + cr;

@@ -56,6 +56,9 @@ namespace ZeeScherpThreading.Views
 			y2.Text = main.fractalgenerator.getTemplate().y2.ToString();
 		}
 
+		/// <summary>
+		/// When combobox value is changed by user
+		/// </summary>
 		private void resolution_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			var frame = (Frame)Window.Current.Content;
@@ -71,6 +74,9 @@ namespace ZeeScherpThreading.Views
 
 		}
 
+		/// <summary>
+		/// When combobox value is changed by user
+		/// </summary>
 		private void threads_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			var frame = (Frame)Window.Current.Content;
@@ -80,6 +86,9 @@ namespace ZeeScherpThreading.Views
 			main.fractalgenerator.getTemplate().setNrOfThreads(Convert.ToInt32(combo.SelectedValue));
 		}
 
+		/// <summary>
+		/// When combobox value is changed by user
+		/// </summary>
 		private void color_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
 		{
 			var picker = sender as ColorPicker;
@@ -89,6 +98,9 @@ namespace ZeeScherpThreading.Views
 			main.fractalgenerator.getTemplate().setColor(picker.Color);
 		}
 
+		/// <summary>
+		/// When texbox value is changed by user
+		/// </summary>
 		private void x1_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			var frame = (Frame)Window.Current.Content;
@@ -102,10 +114,13 @@ namespace ZeeScherpThreading.Views
 				f.x1 = Convert.ToDouble(t.Text);
 			}catch(Exception)
 			{
-
+				Debug.WriteLine("Converting double went wrong");
 			}
 		}
 
+		/// <summary>
+		/// When texbox value is changed by user
+		/// </summary>
 		private void x2_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			var frame = (Frame)Window.Current.Content;
@@ -120,10 +135,13 @@ namespace ZeeScherpThreading.Views
 			}
 			catch (Exception)
 			{
-
+				Debug.WriteLine("Converting double went wrong");
 			}
 		}
 
+		/// <summary>
+		/// When texbox value is changed by user
+		/// </summary>
 		private void y2_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			var frame = (Frame)Window.Current.Content;
@@ -138,10 +156,13 @@ namespace ZeeScherpThreading.Views
 			}
 			catch (Exception)
 			{
-
+				Debug.WriteLine("Converting double went wrong");
 			}
 		}
 
+		/// <summary>
+		/// When texbox value is changed by user
+		/// </summary>
 		private void y1_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			var frame = (Frame)Window.Current.Content;
@@ -156,7 +177,7 @@ namespace ZeeScherpThreading.Views
 			}
 			catch (Exception)
 			{
-
+				Debug.WriteLine("Converting double went wrong");
 			}
 		}
 	}

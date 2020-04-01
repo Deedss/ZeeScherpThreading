@@ -7,18 +7,17 @@ using System.Threading.Tasks;
 
 namespace ZeeScherpThreading.FractalTemplate
 {
+    /// <summary>
+    /// FractalTemplate base class
+    /// NOTE: !!Items moeten public zijn in verband met omzetten naar JSON!!
+    /// </summary>
     public abstract class FractalTemplate
     {
-        public int width, height, iterations = 1;
+        public int width, height, iterations = 1, nrOfThreads;
         public double x1, x2, y1, y2;
         public String name;
-        public int nrOfThreads;
         public Windows.UI.Color color;
-        public FractalTemplate()
-        {
-
-        }
-
+      
         public void setColor(Windows.UI.Color c)
         {
             this.color = c;
@@ -37,7 +36,6 @@ namespace ZeeScherpThreading.FractalTemplate
         {
             return this.nrOfThreads;
         }
-
 
         public int getWidth()
         {

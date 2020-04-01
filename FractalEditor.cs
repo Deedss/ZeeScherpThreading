@@ -37,9 +37,16 @@ namespace ZeeScherpThreading
         /// <param name="filename"> The name of the Json file </param>
         public async void SaveFractals(StorageFile file) // voorbeeld hoe je Json file saved 
         {
-            //TODO Serialize the list to Json
-            string json = SerializeJson();            // The string to put in the json file
-            await FileIO.WriteTextAsync(file, json);
+            try
+            {
+                //TODO Serialize the list to Json
+                string json = SerializeJson();// The string to put in the json file
+                await FileIO.WriteTextAsync(file, json);
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("Could not save file");
+            }
         }
 
         /// <summary>

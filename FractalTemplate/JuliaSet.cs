@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ZeeScherpThreading.FractalTemplate
 {
+    /// <summary>
+    /// Template for JuliaSet
+    /// </summary>
     class JuliaSet : FractalTemplate
     {
         public JuliaSet()
@@ -21,6 +24,7 @@ namespace ZeeScherpThreading.FractalTemplate
         public override int[,] calculate(FractalPart fa)
         {
             int w;
+            //Max pixel value range 0-255
             int w_max = 255;
             int[,] pixels = new int[fa.getWidth(), fa.getHeight()];
 

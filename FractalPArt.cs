@@ -6,10 +6,15 @@ using System.Threading.Tasks;
 
 namespace ZeeScherpThreading
 {
+    /// <summary>
+    /// A part of the fractal template
+    /// A fractaltemplate can be split up into an x number of parts
+    /// These parts will be calculated on a different thread and combined in the UI
+    /// </summary>
     public class FractalPart
     {
         public double x1, x2, y1, y2;
-        public int width, height, pos;
+        private int width, height, pos;
         public byte[] imageArray;
 
         public FractalPart() { }
@@ -45,6 +50,15 @@ namespace ZeeScherpThreading
             this.height = h;
         }
 
+        public int getPos()
+        {
+            return this.pos;
+        }
+
+        public void setPos(int p)
+        {
+            this.pos = p;
+        }
 
     }
 }

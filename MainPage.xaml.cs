@@ -22,25 +22,25 @@ namespace ZeeScherpThreading
     {
         public FractalGenerator fractalgenerator = new FractalGenerator();
         public FractalEditor fractaleditor = new FractalEditor();
-        
         public MainPage()
         {
             this.InitializeComponent();
-
+            //Add default templates to editor when no file is loaded by user
             fractaleditor.GetFractals().Add(new FractalTemplate.MandelBrot());
             fractaleditor.GetFractals().Add(new FractalTemplate.JuliaSet());
 
             fractalgenerator.setTemplate(fractaleditor.GetFractals()[0]);
         }
 
-       
-
+        /// <summary>
+        /// When sidebar navigation fails
+        /// </summary>
         private void ContentFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
-        // pageyboies
+        // pages in sidebar
         private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>{
             ("Page1", typeof(Views.DrawFractal)),
             ("Page2", typeof(Views.SelectFractal)),
@@ -49,12 +49,15 @@ namespace ZeeScherpThreading
             ("About", typeof(Views.About)),
         };
 
+        /// <summary>
+        /// When sidebar is loaded
+        /// </summary>
         private void NavView_Loaded(object sender, RoutedEventArgs e){
             ContentFrame.Navigated += On_Navigated;
 
             NavView.SelectedItem = NavView.MenuItems[0];
 
-            //default page optional
+            // set default page blank
             NavView_Navigate("", new EntranceNavigationTransitionInfo());
 
             var altLeft = new KeyboardAccelerator
@@ -65,6 +68,9 @@ namespace ZeeScherpThreading
             this.KeyboardAccelerators.Add(altLeft);
         }
 
+        /// <summary>
+        /// When sidebar item is pressed
+        /// </summary>
         private void NavView_ItemInvoked(NavigationView sender,
                                          NavigationViewItemInvokedEventArgs args)
         {
@@ -97,38 +103,30 @@ namespace ZeeScherpThreading
             }
         }
 
+        /// <summary>
+        /// Navigate to sidebar item page
+        /// </summary>
         public void NavView_Navigate(string navItemTag, NavigationTransitionInfo transitionInfo)
         {
             Type _page = null;
-            if (navItemTag == "settings")
-            {
-                _page = typeof(Views.Settings);
-            }
-            else
-            {
-                var item = _pages.FirstOrDefault(p => p.Tag.Equals(navItemTag));
-                _page = item.Page;
-            }
+            var item = _pages.FirstOrDefault(p => p.Tag.Equals(navItemTag));
+            _page = item.Page;
 
             var preNavPageType = ContentFrame.CurrentSourcePageType;
 
-            if (!(_page is null) && !Type.Equals(preNavPageType, _page))
+            if (!(_page is null))
             {
                 ContentFrame.Navigate(_page, null, transitionInfo);
             }
         }
 
+        /// <summary>
+        /// When changing page is complete
+        /// </summary>
         private void On_Navigated(object sender, NavigationEventArgs e)
         {
-            NavView.IsBackEnabled = ContentFrame.CanGoBack;
-
-            if (ContentFrame.SourcePageType == typeof(Views.Settings))
-            {
-                //moet weer speciaal doen 
-                NavView.SelectedItem = (NavigationViewItem)NavView.SettingsItem;
-                NavView.Header = "Settings";
-            }
-            else if (ContentFrame.SourcePageType != null)
+           NavView.IsBackEnabled = ContentFrame.CanGoBack;
+           if (ContentFrame.SourcePageType != null)
             {
                 var item = _pages.FirstOrDefault(p => p.Page == e.SourcePageType);
 
@@ -141,6 +139,9 @@ namespace ZeeScherpThreading
             }
         }
 
+        /// <summary>
+        /// Load file sidebar item clicked
+        /// </summary>
         private async void NavigationViewItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
             var picker = new Windows.Storage.Pickers.FileOpenPicker();
@@ -152,14 +153,16 @@ namespace ZeeScherpThreading
             if (file != null)
             {
                 await fractaleditor.LoadFractals(file);
-            
+                //Goto fractal select page
                 NavView_Navigate("Page2", new EntranceNavigationTransitionInfo());
             }
         }
 
+        /// <summary>
+        /// Save file sidebar item clicked
+        /// </summary>
         private async void NavigationViewItem_Tapped_1(object sender, TappedRoutedEventArgs e)
         {
-            
             var savePicker = new Windows.Storage.Pickers.FileSavePicker();
             savePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
             // Dropdown of file types the user can save the file as

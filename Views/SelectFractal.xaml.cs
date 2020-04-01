@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -42,9 +43,10 @@ namespace ZeeScherpThreading.Views
 			{
 				FractalBox.SelectedIndex = 0;
 			}
-
 		}
-
+		/// <summary>
+		/// When combobox value is changed by user
+		/// </summary>
 		private void FractalBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			var frame = (Frame)Window.Current.Content;
@@ -52,7 +54,7 @@ namespace ZeeScherpThreading.Views
 			var combo = sender as ComboBox;
 	
 			main.fractalgenerator.setTemplate(main.fractaleditor.GetFractals()[combo.SelectedIndex]);
-			
+			main.NavView_Navigate("Page3", new EntranceNavigationTransitionInfo());
 		}
 	}
 }
