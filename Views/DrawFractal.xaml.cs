@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -23,10 +24,18 @@ namespace ZeeScherpThreading.Views
 	/// </summary>
 	public sealed partial class DrawFractal : Page
 	{
-		
+		private Frame frame;
+		private MainPage main;
+
+		private Stopwatch stopwatch;
 		public DrawFractal()
 		{
 			this.InitializeComponent();
+			frame = (Frame)Window.Current.Content;
+			main = (MainPage)frame.Content;
+
+			log.Text = "";
+
 			generate();
 		}
 
@@ -36,30 +45,33 @@ namespace ZeeScherpThreading.Views
 		/// </summary>
 		private void generate()
 		{
-			var frame = (Frame)Window.Current.Content;
-			var main = (MainPage)frame.Content;
 			main.fractalgenerator.setStackPanel(canvas);
 
-			log.Text = "";
-
-			Stopwatch stopwatch = new Stopwatch();
+			stopwatch = new Stopwatch();
 			stopwatch.Start();
-			int threadDone = 0;
 
-			//Start generating, callback will be called when a thread is done working
-			main.fractalgenerator.generate((string x) => {
-				//Callback when thread is done generating
-				log.Text += "\nThread: " + x + " is done";
-				threadDone++;
-				//Check if count of done threads equals amount of threads in generator
-				if (threadDone == main.fractalgenerator.getTemplate().getNrOfThreads())
-				{
-					//When all threads done stop the stopwatch and display the final time
-					stopwatch.Stop();
-					log.Text += "\n\nTotal time to draw: " + stopwatch.Elapsed.ToString();
-				}
-				return 1;
-			});
+			//Start generating, callback will be called when a single thread is done working
+			main.fractalgenerator.generate((FractalPart part) => this.generateCallback(part));
+		}
+
+		//Number of threads that are done
+		int threadDone = 0;
+		//Callback to UI thread
+		private async void generateCallback(FractalPart part)
+		{
+			//Add generated fractal part to the UI
+			await main.fractalgenerator.addFractalPartToUIAsync(part);
+		
+			//Add log entry with thread number
+			log.Text += "\nThread: " + part.getPos() + " is done";
+			threadDone++;
+			//Check if count of done threads equals amount of threads in generator
+			if (threadDone == main.fractalgenerator.getTemplate().getNrOfThreads())
+			{
+				//When all threads done stop the stopwatch and display the final time
+				stopwatch.Stop();
+				log.Text += "\n\nTotal time to draw: " + stopwatch.Elapsed.ToString();
+			}
 		}
 	}
 }
