@@ -105,14 +105,14 @@ namespace ZeeScherpThreading
   
             new Thread(() =>
             {
-                int aaa = 0;
-                while (aaa != this.fractal.getNrOfThreads())
+                int pos = 0;
+                while (pos != this.fractal.getNrOfThreads())
                 {
                     FractalPart part = new FractalPart(fractal.x1,
                         fractal.x2, y1, y2,
-                        fractal.getWidth(), fractal.getHeight() / this.fractal.getNrOfThreads(), aaa);
+                        fractal.getWidth(), fractal.getHeight() / this.fractal.getNrOfThreads(), pos);
                     this.fractalParts.Add(part);
-                    aaa++;
+                    pos++;
 
                     y1 -= step;
                     y2 = (y1 - step);
@@ -179,11 +179,10 @@ namespace ZeeScherpThreading
             }
 
             //Callback to UI thread when generating is done, add to list and refresh current fractal parts on screen
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,  () =>
             {
                 //callback to notify we are done
                 callback(part);
-               
             });
 
         }
