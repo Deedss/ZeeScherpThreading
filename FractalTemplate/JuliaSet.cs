@@ -32,6 +32,7 @@ namespace ZeeScherpThreading.FractalTemplate
             double cX, cY;
             double zx, zy;
 
+            // The JuliaSet requires a Constant to draw wheras the MandleBrot recalculates this value.
             cX = -0.7;
             cY = -0.27015;
 
@@ -41,10 +42,12 @@ namespace ZeeScherpThreading.FractalTemplate
                 for (int Ycount = 0; Ycount < fa.getHeight(); Ycount++)
                 {
                     w = 0;
-
+                    
+                    // Sets the actual value.
                     zx = (fa.x2 - fa.x1) * (Xcount - fa.getWidth() / 2) / (0.5 * fa.getWidth());
                     zy = (fa.y2 - fa.y1) * (Ycount - fa.getHeight() / 2) / (0.5 * fa.getHeight());
 
+                    // Calculate w to fill in the pixels.
                     while (zx * zx + (zy * zy) < 4 && w < w_max)
                     {
                         double tmp = zx * zx - zy * zy + cX;

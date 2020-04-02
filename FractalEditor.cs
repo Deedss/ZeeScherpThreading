@@ -73,6 +73,7 @@ namespace ZeeScherpThreading
 
             toserialize.CollectionToSerialize = fractals;
 
+            // Serialize the Object to a string. 
             string json = JsonConvert.SerializeObject(toserialize, Formatting.Indented,
                 new JsonSerializerSettings
                 {
@@ -91,6 +92,7 @@ namespace ZeeScherpThreading
         {
             var binder = new TypeNameSerializationBinder("ZeeScherpThreading.FractalTemplate.{0}, ZeeScherpThreading");
 
+            // Deserialize the JSON file.
             var obj = JsonConvert.DeserializeObject<ClassToSerializeViaJson>(json,
                 new JsonSerializerSettings
                 {
