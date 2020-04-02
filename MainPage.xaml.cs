@@ -106,7 +106,7 @@ namespace ZeeScherpThreading
         /// <summary>
         /// Navigate to sidebar item page
         /// </summary>
-        public void NavView_Navigate(string navItemTag, NavigationTransitionInfo transitionInfo)
+        public void NavView_Navigate(string navItemTag, NavigationTransitionInfo transitionInfo, Boolean force = false)
         {
             Type _page = null;
             var item = _pages.FirstOrDefault(p => p.Tag.Equals(navItemTag));
@@ -114,7 +114,7 @@ namespace ZeeScherpThreading
 
             var preNavPageType = ContentFrame.CurrentSourcePageType;
 
-            if (!(_page is null))
+            if (!(_page is null)  && !Type.Equals(preNavPageType, _page) || force)
             {
                 ContentFrame.Navigate(_page, null, transitionInfo);
             }
@@ -154,7 +154,7 @@ namespace ZeeScherpThreading
             {
                 await fractaleditor.LoadFractals(file);
                 //Goto fractal select page
-                NavView_Navigate("Page2", new EntranceNavigationTransitionInfo());
+                NavView_Navigate("Page2", new EntranceNavigationTransitionInfo(), true);
             }
         }
 
