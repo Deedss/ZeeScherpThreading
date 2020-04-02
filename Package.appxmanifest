@@ -10,7 +10,7 @@
   <Identity
     Name="61939c98-7e3b-41dc-b3e6-a4a716b4bb00"
     Publisher="CN=Luuk"
-    Version="1.0.0.0" />
+    Version="1.0.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="61939c98-7e3b-41dc-b3e6-a4a716b4bb00" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
